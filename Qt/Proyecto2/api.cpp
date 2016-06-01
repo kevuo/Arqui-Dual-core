@@ -4,3 +4,7 @@ API::API()
 {
 
 }
+
+void API::writeDMA(){
+    qDebug() << "Wagner";
+}

@@ -6,6 +6,7 @@ class API
 {
 public:
     API();
+    void writeDMA();
 };
 
 #endif // API_H
