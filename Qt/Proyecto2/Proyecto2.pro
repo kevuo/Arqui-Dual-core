@@ -15,7 +15,8 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     api.cpp \
-    Suma.c
+    Suma.c \
+    API.c
 
 HEADERS  += mainwindow.h \
     api.h

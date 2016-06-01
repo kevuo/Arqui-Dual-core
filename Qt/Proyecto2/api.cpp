@@ -11,6 +11,6 @@ void API::writeDMAMatriz(int total){
 }
 
 void API::readDMAMatriz(){
-    hola(221291);
+    hola(20009);
     std::cout << "La matriz es [][]" << std::endl;
 }
