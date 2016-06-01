@@ -1,6 +1,9 @@
 #ifndef API_H
 #define API_H
 
+extern "C" {
+    int hola(int zumbi);
+}
 
 class API{
     public:
