@@ -1,10 +1,15 @@
 #include "api.h"
-#include "qmessagebox.h"
+#include "iostream"
+#include "qfiledialog.h"
 
-API::API()
-{
+API::API(){
 
 }
 
-void API::writeDMA(){
+void API::writeDMAMatriz(int total){
+    std::cout << total  << std::endl;
+}
+
+void API::readDMAMatriz(){
+    std::cout << "La matriz es [][]" << std::endl;
 }
