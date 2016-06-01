@@ -1,4 +1,5 @@
 #include "api.h"
+#include "qmessagebox.h"
 
 API::API()
 {
@@ -6,5 +7,4 @@ API::API()
 }
 
 void API::writeDMA(){
-    qDebug() << "Wagner";
 }

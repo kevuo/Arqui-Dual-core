@@ -4,11 +4,12 @@
 
 int main(int argc, char *argv[])
 {
-    API api;
-    api.writeDMA();
-    //QApplication a(argc, argv);
-    //MainWindow w;
-    //w.show();
+    QApplication a(argc, argv);
+    //API api;
+    //api.writeDMA();
 
-    //return a.exec();
+    MainWindow w;
+    w.show();
+
+    return a.exec();
 }
