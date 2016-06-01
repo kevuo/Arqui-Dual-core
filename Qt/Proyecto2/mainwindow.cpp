@@ -34,7 +34,7 @@ void MainWindow::on_pushButton_clicked()
         }
 
     } catch (...) {
-        QMessageBox::critical(this, tr("Información"), tr("No se pudo abrir la imagen Wagner"));
+        QMessageBox::critical(this, tr("Información"), tr("No se pudo abrir la imagen"));
     }
 
 }
