@@ -16,7 +16,7 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     api.cpp \
     Suma.c \
-    API.c
+    Interfaz.c
 
 HEADERS  += mainwindow.h \
     api.h

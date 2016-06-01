@@ -6,11 +6,20 @@ API::API(){
 
 }
 
+void API::inicio(){
+    iniciarPCIe();
+    std::cout << ""  << std::endl;
+}
+
+
+
+
+
 void API::writeDMAMatriz(int total){
-    std::cout << total  << std::endl;
+    std::cout << ""  << std::endl;
 }
 
 void API::readDMAMatriz(){
-    hola(20009);
+    hola(8000);
     std::cout << "La matriz es [][]" << std::endl;
 }
