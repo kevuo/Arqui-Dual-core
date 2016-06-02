@@ -2,19 +2,22 @@
 #define API_H
 
 extern "C" {
-    int iniciarPCIeWriteDMA();
-    int hola(int zumbi);
+    void DMAWriteMatriz();
+    void DMAReadMatriz();
+    void DMAWriteDimensiones();
+    void ReadNiosStatus();
+    void WriteDataReadyStatus();
+    //int hola(int zumbi);
 }
 
 class API{
     public:
         API();
-        void inicio();
-        void writeDMAMatriz(int total);
-        void readDMAMatriz();
-        void writeDMASize(int total);
-        void writeStatus(int status);
-        void readStatus();
+        void escribirMatriz();
+        void leerMatriz();
+        void escribirDimensiones();
+        void obtenerNiosStatus();
+        void escribirEstadoDatoListo();
 };
 
 #endif // API_H
