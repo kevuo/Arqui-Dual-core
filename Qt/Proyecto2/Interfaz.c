@@ -1,13 +1,12 @@
 #include "stdio.h"
 #include "PCIE.h"
 
-int iniciarPCIeWriteDMA()
-{
-    printf ("---------- Iniciando el PCIe de la memoria ----------\n");
+void DMAWriteMatriz(){
+    printf ("---------- Iniciando el PCIe Write de la memoria ----------\n");
 
     void *lib_handle;
     void * pData;
-    PCIE_LOCAL_ADDRESS aPCIE;
+    PCIE_LOCAL_ADDRESS aPCIE = 0x200c;
     PCIE_HANDLE hPCIE;
     DWORD dwDataSize;
 
@@ -32,4 +31,18 @@ int iniciarPCIeWriteDMA()
     return 0;
 }
 
+void DMAReadMatriz(){
+    printf("Iniciando lectura de matriz por DMA");
+}
 
+void DMAWriteDimensiones(){
+    printf("Iniciando la escritura de las dimensiones");
+}
+
+void ReadNiosStatus(){
+    printf("Iniciando la lectura del estado");
+}
+
+void WriteDataReadyStatus(){
+    printf("Datos listos y escritos");
+}

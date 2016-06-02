@@ -8,7 +8,11 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     API api;
-    api.inicio();
+    api.leerMatriz();
+    api.escribirMatriz();
+    api.obtenerNiosStatus();
+    api.escribirDimensiones();
+    api.escribirEstadoDatoListo();
 
     //MainWindow w;
     //w.show();

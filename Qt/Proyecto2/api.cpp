@@ -6,20 +6,33 @@ API::API(){
 
 }
 
-void API::inicio(){
-    iniciarPCIeWriteDMA();
+void API::escribirMatriz(){
+   DMAWriteMatriz();
+   std::cout << "" << std::endl;
+}
+
+void API::leerMatriz(){
+    DMAReadMatriz();
+    std::cout << ""  << std::endl;
+}
+
+void API::escribirDimensiones(){
+    DMAWriteDimensiones();
+    std::cout << ""  << std::endl;
+}
+
+void API::obtenerNiosStatus(){
+    ReadNiosStatus();
+    std::cout << ""  << std::endl;
+}
+
+void API::escribirEstadoDatoListo(){
+    WriteDataReadyStatus();
     std::cout << ""  << std::endl;
 }
 
 
-
-
-
-void API::writeDMAMatriz(int total){
-    std::cout << ""  << std::endl;
-}
-
-void API::readDMAMatriz(){
-    hola(8000);
-    std::cout << "La matriz es [][]" << std::endl;
-}
+//void API::readDMAMatriz(){
+//    hola(8000);
+//   std::cout << "La matriz es [][]" << std::endl;
+//}
