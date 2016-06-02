@@ -1,5 +1,6 @@
 #ifndef ADMIMAGEN_H
 #define ADMIMAGEN_H
+
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
 #include <stdio.h>
@@ -20,19 +21,15 @@ public:
     int mGet_Width();
     int mGet_Channels();
     int mGet_Pixel_Size();
-    void mProcesar_Imagen(int pCant_Div);
+    void mProcesar_Imagen();
     cv::Mat mReconstruir();
     cv::Mat mReconstruir(cv::Mat pMatriz);
     bool mImage_Null();
 
 private:
 
-    void mTile_Filling(int pCant_Div);
-    void mGet_Sub_Image(int pWidth, int pHeight);
-    void mInterpolation_NN();
-    void mInterpolation_Taylor();
-    void mInterpreter();
     cv::Mat aImagen;
+    int** aMatrix;
     bool aImageNull;
     int aHeight;
     int aWidth;
