@@ -2,13 +2,13 @@
 #include "PCIE.h"
 
 void DMAWriteMatriz(){
-    printf ("---------- Iniciando el PCIe Write de la memoria ----------\n");
+    printf ("---------- Iniciando la escritura de la matriz por DMA ----------\n");
 
-    void *lib_handle;
-    void * pData;
-    PCIE_LOCAL_ADDRESS aPCIE = 0x200c;
     PCIE_HANDLE hPCIE;
+    PCIE_LOCAL_ADDRESS LocalAddress = 0x200c;
+    void *pData;
     DWORD dwDataSize;
+    void *lib_handle;
 
     printf ("---------- Cargando el PCIe ----------\n");
     lib_handle = PCIE_Load();
@@ -22,21 +22,47 @@ void DMAWriteMatriz(){
         printf("Apertura fallida del PCIe \n");
         return 0;
     }else{
-        //if (!PCIE_DmaWrite(hPCIE, aPCIE, pData, dwDataSize)){
-            printf("Fallo en la escritura DMA\n");
+        if (!PCIE_DmaWrite(hPCIE, LocalAddress, pData, dwDataSize)){
+            printf("Fallo en la escritura de la matriz\n");
         printf ("---------- Cerrando el PCIe ----------\n");
-        //PCIE_Close(hPCIE);
-        //}
+        PCIE_Close(hPCIE);
+        }
     }
     return 0;
 }
 
 void DMAReadMatriz(){
-    printf("Iniciando lectura de matriz por DMA");
+    printf ("---------- Iniciando la lectura de la matriz por DMA ----------\n");
+
+    PCIE_HANDLE hPCIE;
+    PCIE_LOCAL_ADDRESS LocalAddress;
+    void *pBuffer;
+    DWORD dwBufSize;
+    void *lib_handle;
+
+    printf ("---------- Cargando el PCIe ----------\n");
+    lib_handle = PCIE_Load();
+    if (!lib_handle){
+        printf("Carga fallida del PCIe \n");
+        return 0;
+    }
+    printf ("---------- Abriendo el PCIe ----------\n");
+    hPCIE = PCIE_Open(0,0,0);
+    if(!hPCIE){
+        printf("Apertura fallida del PCIe \n");
+        return 0;
+    }else{
+        if (!PCIE_DmaRead(hPCIE, LocalAddress, pBuffer, dwBufSize)){
+            printf("Fallo en la lectura  de la matriz\n");
+        printf ("---------- Cerrando el PCIe ----------\n");
+        PCIE_Close(hPCIE);
+        }
+    }
+    return 0;
 }
 
 void DMAWriteDimensiones(){
-    printf ("---------- Iniciando la lectura del estado ----------\n");
+    printf ("---------- Iniciando la escritura de las dimensiones ----------\n");
     void *lib_handle;
     PCIE_HANDLE hPCIE;
     PCIE_LOCAL_ADDRESS LocalAdress;
@@ -56,7 +82,7 @@ void DMAWriteDimensiones(){
         return 0;
     }else{
         if (!PCIE_DmaWrite(hPCIE, LocalAdress, pData, dwDataSize)){
-            printf("Fallo en la escritura  del readyStatus\n");
+            printf("Fallo en la escritura  de las dimensiones\n");
         printf ("---------- Cerrando el PCIe ----------\n");
         PCIE_Close(hPCIE);
         }
@@ -65,7 +91,7 @@ void DMAWriteDimensiones(){
 }
 
 void ReadNiosStatus(){
-    printf ("---------- Iniciando la lectura del estado ----------\n");
+    printf ("---------- Iniciando la lectura del estado del NIOS ----------\n");
     void *lib_handle;
     PCIE_HANDLE hPCIE;
     PCIE_BAR PcieBar;
@@ -85,7 +111,7 @@ void ReadNiosStatus(){
         return 0;
     }else{
         if (!PCIE_Read8(hPCIE, PcieBar, PcieAddress, pdwData)){
-            printf("Fallo en la escritura  del readyStatus\n");
+            printf("Fallo en la lectura del estado del NIOS\n");
         printf ("---------- Cerrando el PCIe ----------\n");
         PCIE_Close(hPCIE);
         }
@@ -114,7 +140,7 @@ void WriteDataReadyStatus(){
         return 0;
     }else{
         if (!PCIE_Write8(hPCIE, PcieBar, PcieAddress, dwData)){
-            printf("Fallo en la escritura  del readyStatus\n");
+            printf("Fallo en la escritura  del dato listo\n");
         printf ("---------- Cerrando el PCIe ----------\n");
         PCIE_Close(hPCIE);
         }
