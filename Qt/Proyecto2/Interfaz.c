@@ -96,7 +96,7 @@ void ReadNiosStatus(){
     PCIE_HANDLE hPCIE;
     PCIE_BAR PcieBar;
     PCIE_ADDRESS PcieAddress;
-    DWORD *pdwData;
+    unsigned char *pdwData;
 
     printf ("---------- Cargando el PCIe ----------\n");
     lib_handle = PCIE_Load();
