@@ -2,7 +2,7 @@
 #define API_H
 
 extern "C" {
-    int iniciarPCIe();
+    int iniciarPCIeWriteDMA();
     int hola(int zumbi);
 }
 

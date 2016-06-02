@@ -7,7 +7,7 @@ API::API(){
 }
 
 void API::inicio(){
-    iniciarPCIe();
+    iniciarPCIeWriteDMA();
     std::cout << ""  << std::endl;
 }
 
