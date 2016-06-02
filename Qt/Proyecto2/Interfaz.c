@@ -11,13 +11,13 @@ void DMAWriteMatriz(){
     DWORD dwDataSize;
 
     printf ("---------- Cargando el PCIe ----------\n");
-    //lib_handle = PCIE_Load();
+    lib_handle = PCIE_Load();
     if (!lib_handle){
         printf("Carga fallida del PCIe \n");
         return 0;
     }
     printf ("---------- Abriendo el PCIe ----------\n");
-   //hPCIE = PCIE_Open(0,0,0);
+   hPCIE = PCIE_Open(0,0,0);
     if(!hPCIE){
         printf("Apertura fallida del PCIe \n");
         return 0;
@@ -44,5 +44,31 @@ void ReadNiosStatus(){
 }
 
 void WriteDataReadyStatus(){
-    printf("Datos listos y escritos");
+    printf ("---------- Iniciando la escritura del dato listo ----------\n");
+    void *lib_handle;
+    PCIE_BAR PcieBar = PCIE_BAR0;
+    PCIE_ADDRESS PcieAddress = 0x2000;
+    PCIE_HANDLE hPCIE;
+    DWORD dwData = 1;
+
+    printf ("---------- Cargando el PCIe ----------\n");
+    lib_handle = PCIE_Load();
+    if (!lib_handle){
+        printf("Carga fallida del PCIe \n");
+        return 0;
+    }
+    printf ("---------- Abriendo el PCIe ----------\n");
+    hPCIE = PCIE_Open(0,0,0);
+    if(!hPCIE){
+        printf("Apertura fallida del PCIe \n");
+        return 0;
+    }else{
+        if (!PCIE_Write8(hPCIE, PcieBar, PcieAddress, dwData)){
+            printf("Fallo en la escritura  del readyStatus\n");
+        printf ("---------- Cerrando el PCIe ----------\n");
+        PCIE_Close(hPCIE);
+        }
+    }
+    return 0;
+
 }
