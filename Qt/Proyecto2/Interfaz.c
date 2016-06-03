@@ -1,13 +1,13 @@
 #include "stdio.h"
 #include "PCIE.h"
 
-void DMAWriteMatriz(){
+void DMAWriteMatriz(PCIE_LOCAL_ADDRESS LocalAddress, void* pData, DWORD dwDataSize){
     printf ("---------- Iniciando la escritura de la matriz por DMA ----------\n");
 
     PCIE_HANDLE hPCIE;
-    PCIE_LOCAL_ADDRESS LocalAddress = 0x200c;
-    void *pData;
-    DWORD dwDataSize;
+    //PCIE_LOCAL_ADDRESS LocalAddress = 0x200c;
+    //void *pData;
+    //DWORD dwDataSize;
     void *lib_handle;
 
     printf ("---------- Cargando el PCIe ----------\n");
@@ -31,13 +31,13 @@ void DMAWriteMatriz(){
     return 0;
 }
 
-void DMAReadMatriz(){
+void* DMAReadMatriz(PCIE_LOCAL_ADDRESS LocalAddress, DWORD dwBufSize){
     printf ("---------- Iniciando la lectura de la matriz por DMA ----------\n");
 
     PCIE_HANDLE hPCIE;
-    PCIE_LOCAL_ADDRESS LocalAddress;
+    //PCIE_LOCAL_ADDRESS LocalAddress;
     void *pBuffer;
-    DWORD dwBufSize;
+    //DWORD dwBufSize;
     void *lib_handle;
 
     printf ("---------- Cargando el PCIe ----------\n");
@@ -54,6 +54,9 @@ void DMAReadMatriz(){
     }else{
         if (!PCIE_DmaRead(hPCIE, LocalAddress, pBuffer, dwBufSize)){
             printf("Fallo en la lectura  de la matriz\n");
+        else{
+                return pBuffer;
+            }
         printf ("---------- Cerrando el PCIe ----------\n");
         PCIE_Close(hPCIE);
         }
@@ -61,13 +64,13 @@ void DMAReadMatriz(){
     return 0;
 }
 
-void DMAWriteDimensiones(){
+void DMAWriteDimensiones(PCIE_LOCAL_ADDRESS LocalAdress, void* pData, DWORD dwDataSize){
     printf ("---------- Iniciando la escritura de las dimensiones ----------\n");
     void *lib_handle;
     PCIE_HANDLE hPCIE;
-    PCIE_LOCAL_ADDRESS LocalAdress;
-    void *pData;
-    DWORD dwDataSize;
+    //PCIE_LOCAL_ADDRESS LocalAdress;
+    //void *pData;
+    //DWORD dwDataSize;
 
     printf ("---------- Cargando el PCIe ----------\n");
     lib_handle = PCIE_Load();
@@ -90,12 +93,12 @@ void DMAWriteDimensiones(){
     return 0;
 }
 
-void ReadNiosStatus(){
+unsigned char* ReadNiosStatus(PCIE_ADDRESS PcieAddress){
     printf ("---------- Iniciando la lectura del estado del NIOS ----------\n");
     void *lib_handle;
     PCIE_HANDLE hPCIE;
-    PCIE_BAR PcieBar;
-    PCIE_ADDRESS PcieAddress;
+    PCIE_BAR PcieBar = PCIE_BAR0;
+    //PCIE_ADDRESS PcieAddress;
     unsigned char *pdwData;
 
     printf ("---------- Cargando el PCIe ----------\n");
@@ -112,20 +115,23 @@ void ReadNiosStatus(){
     }else{
         if (!PCIE_Read8(hPCIE, PcieBar, PcieAddress, pdwData)){
             printf("Fallo en la lectura del estado del NIOS\n");
+        else
+            return pdwData;
         printf ("---------- Cerrando el PCIe ----------\n");
         PCIE_Close(hPCIE);
         }
     }
-    return 0;
+    return pdwData;
+    //return 0;
 }
 
-void WriteDataReadyStatus(){
+void WriteDataReadyStatus(PCIE_ADDRESS PcieAddress, DWORD dwData){
     printf ("---------- Iniciando la escritura del dato listo ----------\n");
     void *lib_handle;
     PCIE_BAR PcieBar = PCIE_BAR0;
-    PCIE_ADDRESS PcieAddress = 0x2000;
     PCIE_HANDLE hPCIE;
-    DWORD dwData = 1;
+    //PCIE_ADDRESS PcieAddress = 0x2000;
+    //DWORD dwData = 1;
 
     printf ("---------- Cargando el PCIe ----------\n");
     lib_handle = PCIE_Load();
