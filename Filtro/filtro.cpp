@@ -1,88 +1,54 @@
 #include "filtro.h"
 
-Filtro::Filtro() {
-    aN = 10; //filas
-    aM = 10; //columnas
-    aMatrix1 = new int*[aN];
-    aMatrix2 = new int*[aN];
-    for (int i = 0; i < aN; i++) {
-        aMatrix1[i] = new int[aM];
-        aMatrix2[i] = new int[aM];
-    }
+Filtro::Filtro() {}
 
-    mSalt_Filter();
-    mTraspuesta();
-    mSalt_Filter();
-    mTraspuesta();
+Filtro::~Filtro(){}
 
-    mPrint_Matrix(aMatrix1, aN, aM);
-    mPrint_Matrix(aMatrix2, aN, aM);
-
-    for (int i = 0; i < aN; i++) {
-        delete [] aMatrix1[i];
-        delete [] aMatrix2[i];
-    }
-    delete [] aMatrix1;
-    delete [] aMatrix2;
+Filtro::Filtro(cv::Mat pImagen, int pN, int pM) {
+    aN = pN; //filas
+    aM = pM; //columnas
+    cv::Mat Matrix1(pN,pM,CV_8UC1);
+    cv::Mat Matrix2(pN,pM,CV_8UC1);
+    cvtColor(pImagen,Matrix1,CV_RGB2GRAY);
+    aMatrix1 = Matrix1;
+    aMatrix2 = Matrix2;
 }
 
-Filtro::Filtro(int** matrix, int N, int M) {
-    aN = N; //filas
-    aM = M; //columnas
-    aMatrix1 = matrix;
-    aMatrix2 = new int*[aN];
-    for (int i = 0; i < aN; i++) {
-        aMatrix2[i] = new int[aM];
-    }
-}
-
-Filtro::mSet_Matrix(int **Matrix) {
-    aMatrix1 = Matrix;
-    aMatrix2 = new int*[aN];
-    for (int i = 0; i < aN; i++) {
-        aMatrix2[i] = new int[aM];
-    }
-}
-
-Filtro::mGet_Matrix() {
+cv::Mat Filtro::mGet_Matrix() {
     return aMatrix1;
 }
 
-Filtro::mProcesar_Imagen(){
+void Filtro::mProcesar_Imagen(){
     mSalt_Filter();
     mTraspuesta();
     mSalt_Filter();
     mTraspuesta();
 }
 
-Filtro::mPrint_Matrix(int **matrix, int N, int M) {
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < M; j++) {
-            cout << matrix[i][j] << "\t";
-        }
-        cout << endl;
-    }
-}
-
-Filtro::mMax_5n(int a, int b, int c, int d, int e) {
+int Filtro::mMax_5n(int a, int b, int c, int d, int e) {
     int max = (a < b) ? b : a;
     max = (max < c) ? c : max;
     max = (max < d) ? d : max;
     return (max < e) ? e : max;
 }
 
-Filtro::mSalt_Filter() {
+void Filtro::mSalt_Filter() {
     for (int i = 0; i < aN; i++) {
         for (int j = 2; j < aM - 2; j++) {
-            aMatrix2[i][j] = mMax_5n(matrix[i][j - 2], aMatrix1[i][j - 1], aMatrix1[i][j], aMatrix1[i][j + 1], aMatrix1[i][j + 2]);
+            aMatrix2 .at<uchar>(i,j) = mMax_5n(
+                        aMatrix1 .at<uchar>(i,j-2),
+                        aMatrix1 .at<uchar>(i,j-1),
+                        aMatrix1 .at<uchar>(i,j),
+                        aMatrix1 .at<uchar>(i,j+1),
+                        aMatrix1 .at<uchar>(i,j+2));
         }
     }
 }
 
-Filtro::mTraspuesta() {
+void Filtro::mTraspuesta() {
     for (int i = 0; i < aN; i++) {
         for (int j = 2; j < aM - 2; j++) {
-            aMatrix1[i][j] = aMatrix2[j][i];
+            aMatrix1 .at<uchar>(i,j) = aMatrix2 .at<uchar>(j,i);
         }
     }
 }

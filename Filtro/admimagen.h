@@ -8,6 +8,7 @@
 #include <math.h>
 #include <iostream>
 #include "string"
+#include <filtro.h>
 using namespace std;
 
 class AdmImagen
@@ -15,28 +16,19 @@ class AdmImagen
 public:
     AdmImagen();
     AdmImagen(string pFile);
-    void mSet_Image(string pFile);
-    cv::Mat mGet_Image();
-    int mGet_Height();
-    int mGet_Width();
-    int mGet_Channels();
-    int mGet_Pixel_Size();
     void mProcesar_Imagen();
     cv::Mat mReconstruir();
-    cv::Mat mReconstruir(cv::Mat pMatriz);
     bool mImage_Null();
 
 private:
 
     cv::Mat aImagen;
-    int** aMatrix;
+    Filtro aFiltro;
     bool aImageNull;
     int aHeight;
     int aWidth;
     int aChannels;
-    int aPixelSize;
-    int aCant_X;
-    int aCant_Y;
+    void mGet_Sub_Image(int pWidth, int pHeight);
 };
 
 #endif // ADMIMAGEN_H
