@@ -14,19 +14,6 @@
    <string>SaltFilter</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="MyLabel" name="ImageShow">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>20</y>
-      <width>811</width>
-      <height>571</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
    <widget class="QPushButton" name="Procesar">
     <property name="geometry">
      <rect>
@@ -40,6 +27,19 @@
      <string>Procesar</string>
     </property>
    </widget>
+   <widget class="QLabel" name="ImageShow">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>30</y>
+      <width>841</width>
+      <height>491</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -47,7 +47,7 @@
      <x>0</x>
      <y>0</y>
      <width>1049</width>
-     <height>18</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuArchivo">
@@ -55,8 +55,8 @@
      <rect>
       <x>115</x>
       <y>109</y>
-      <width>107</width>
-      <height>101</height>
+      <width>156</width>
+      <height>115</height>
      </rect>
     </property>
     <property name="title">
@@ -99,16 +99,6 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <customwidgets>
-  <customwidget>
-   <class>MyLabel</class>
-   <extends>QLabel</extends>
-   <header location="global">mylabel.h</header>
-   <slots>
-    <signal>clicked()</signal>
-   </slots>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

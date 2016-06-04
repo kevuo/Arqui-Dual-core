@@ -1,7 +1,6 @@
-#include <QtGui/QApplication>
+#include <QtWidgets/QApplication>
 #include "saltfilter.h"
 #include "admimagen.h"
-#include "admmatriz.h"
 
 int main(int argc, char *argv[])
 {

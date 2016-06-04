@@ -8,8 +8,10 @@
 #ifndef FILTRO_H
 #define	FILTRO_H
 
+
+#include <opencv/cv.h>
+#include <opencv/highgui.h>
 #include <iostream>
-#include <fstream>
 using namespace std;
 
 
@@ -17,19 +19,17 @@ class Filtro
 {
 public:
     Filtro();
-    Filtro(int **Matrix, int N, int M);
-    void mSet_Matrix(int **Matrix);
-    int** mGet_Matrix();
+    ~Filtro();
+    Filtro(cv::Mat pImagen, int pN, int pM);
+    cv::Mat mGet_Matrix();
     void mProcesar_Imagen();
-    bool mImage_Null();
-    void mPrint_Matrix(int **matrix, int N, int M);
 
 private:
     int mMax_5n(int a,int b,int c,int d,int e);
     void mSalt_Filter();
     void mTraspuesta();
-    int** aMatrix1;
-    int** aMatrix2;
+    cv::Mat aMatrix1;
+    cv::Mat aMatrix2;
     int aN;//filas
     int aM;//columnas
 };

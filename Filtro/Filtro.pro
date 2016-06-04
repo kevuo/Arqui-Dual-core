@@ -27,3 +27,6 @@ FORMS    += saltfilter.ui
 OTHER_FILES += \
     Filtro.pro.user \
     Makefile
+
+
+LIBS +=`pkg-config opencv --cflags --libs`

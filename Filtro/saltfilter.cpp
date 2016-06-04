@@ -21,8 +21,7 @@ void SaltFilter::on_actionAbrir_triggered()
           tr("Abrir Imagen"), "/home/", tr("Image Files (*.png *.jpg *.bmp)"));
     string File = fileName.toStdString();
     if (fileName.size()==0)return;
-    aAdmImage=AdmImagen(File);
-    aAdmMatriz=AdmMatriz();
+    this->aAdmImage = AdmImagen(File);
     QPixmap Aux(fileName);
     ui->ImageShow->setPixmap(Aux);
     ui->ImageShow->setAlignment(0);
@@ -31,7 +30,7 @@ void SaltFilter::on_actionAbrir_triggered()
 void SaltFilter::on_Procesar_pressed()
 {
     if (aAdmImage.mImage_Null()){
-        aAdmImage=AdmImagen("Qpixmap.jpg");
+        this->aAdmImage=AdmImagen("Qpixmap.jpg");
     }
     //aAdmImage.mProcesar_Imagen((int)ui->CantDiv->value());
     aAdmImage.mProcesar_Imagen();
@@ -50,7 +49,8 @@ void SaltFilter::on_actionSalir_triggered()
 void SaltFilter::on_actionGuardar_triggered()
 {
     QString fileName = QFileDialog::getSaveFileName(this,
-          tr("Guardar XML"), "/home/", tr("XML Files (*.xml)"));
+          tr("Guardar Imagen"), "/home/", tr("Image Files (*.png *.jpg *.bmp)"));
     if (fileName.size()==0)return;
-    this->aAdmImage.mGuardar_Img(fileName);
+    string File = fileName.toStdString();
+    cv::imwrite(File,aAdmImage.mReconstruir());
 }
