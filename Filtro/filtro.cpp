@@ -18,11 +18,50 @@ cv::Mat Filtro::mGet_Matrix() {
     return aMatrix1;
 }
 
-void Filtro::mProcesar_Imagen(){
-    mSalt_Filter();
+void Filtro::mProcesar_Imagen(int distribution){
+    //memoria de datos para enviar
+    unsigned char **dataTransfer;
+    dataTransfer = new unsigned char*[aN*distribution/100];
+    for (int i=0; i<aN*distribution/100; i++){
+        dataTransfer[i] = new unsigned char[aM];
+    }
+
+    #pragma omp parallel num_threads(2)
+    {
+        int id = omp_get_thread_num();
+        if(id==0) mSalt_Filter(distribution);
+        if(id==1){
+            //enviar datos
+            //polling
+        }
+    }
+
+    //reconstruir
+    mReconstruir(dataTransfer,distribution);
     mTraspuesta();
-    mSalt_Filter();
+
+    #pragma omp parallel num_threads(2)
+    {
+        int id = omp_get_thread_num();
+        if(id==0) {
+            mSalt_Filter(distribution);
+        }
+        if(id==1){
+            //enviar datos
+            //polling
+        }
+    }
+
+    //reconstruir
+    mReconstruir(dataTransfer,distribution);
     mTraspuesta();
+
+    // releasing memory
+    for (int i=0; i<aN*distribution/100; i++) {
+        delete [] dataTransfer[i];
+    }
+    delete [] dataTransfer;
+
 }
 
 int Filtro::mMax_5n(int a, int b, int c, int d, int e) {
@@ -32,8 +71,16 @@ int Filtro::mMax_5n(int a, int b, int c, int d, int e) {
     return (max < e) ? e : max;
 }
 
-void Filtro::mSalt_Filter() {
-    for (int i = 0; i < aN; i++) {
+void Filtro::mReconstruir(unsigned char **dataTransfer,int distribution){
+    for (int i=0; i<aN*distribution/100; i++) {
+        for (int j = 2; j < aM - 2; j++) {
+            aMatrix2 .at<uchar>(i,j) = dataTransfer[i][j];
+        }
+    }
+}
+
+void Filtro::mSalt_Filter(int distribution) {
+    for (int i = (aN*distribution/100); i < aN; i++) {
         for (int j = 2; j < aM - 2; j++) {
             aMatrix2 .at<uchar>(i,j) = mMax_5n(
                         aMatrix1 .at<uchar>(i,j-2),
