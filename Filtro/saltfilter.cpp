@@ -32,8 +32,7 @@ void SaltFilter::on_Procesar_pressed()
     if (aAdmImage.mImage_Null()){
         this->aAdmImage=AdmImagen("Qpixmap.jpg");
     }
-    //aAdmImage.mProcesar_Imagen((int)ui->CantDiv->value());
-    aAdmImage.mProcesar_Imagen();
+    aAdmImage.mProcesar_Imagen((int)ui->CantDiv->value());
     cv::imwrite("Qpixmap.jpg",aAdmImage.mReconstruir());
     QPixmap Aux("Qpixmap.jpg");
     ui->ImageShow->setPixmap(Aux);

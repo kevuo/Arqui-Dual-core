@@ -16,7 +16,7 @@ class AdmImagen
 public:
     AdmImagen();
     AdmImagen(string pFile);
-    void mProcesar_Imagen();
+    void mProcesar_Imagen(int distribution);
     cv::Mat mReconstruir();
     bool mImage_Null();
 

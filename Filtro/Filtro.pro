@@ -30,3 +30,6 @@ OTHER_FILES += \
 
 
 LIBS +=`pkg-config opencv --cflags --libs`
+
+QMAKE_CXXFLAGS += -fopenmp
+QMAKE_LFLAGS += -fopenmp

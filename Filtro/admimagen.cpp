@@ -26,8 +26,8 @@ bool AdmImagen::mImage_Null(){
     return aImageNull;
 }
 
-void AdmImagen::mProcesar_Imagen(){
-    this->aFiltro.mProcesar_Imagen();
+void AdmImagen::mProcesar_Imagen(int distribution){
+    this->aFiltro.mProcesar_Imagen(distribution);
 }
 
 cv::Mat AdmImagen::mReconstruir(){
