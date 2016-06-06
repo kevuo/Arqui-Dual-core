@@ -6,28 +6,28 @@ API::API(){
 
 }
 
-void API::escribirMatriz(PCIE_LOCAL_ADDRESS LocalAddress, void* pData, DWORD dwDataSize){
-   DMAWriteMatriz(LocalAddress, pData, dwDataSize);
+void API::escribirMatriz(void* pData, unsigned int dwDataSize){
+   DMAWriteMatriz(pData, dwDataSize);
    std::cout << "" << std::endl;
 }
 
-void API::leerMatriz(PCIE_LOCAL_ADDRESS LocalAddress, DWORD dwBufSize){
-    DMAReadMatriz(LocalAddress, dwBufSize);
+void* API::leerMatriz(unsigned int dwBufSize, void* pBuffer){
+    return DMAReadMatriz(dwBufSize, pBuffer);
     std::cout << ""  << std::endl;
 }
 
-void API::escribirDimensiones(PCIE_LOCAL_ADDRESS LocalAdress, void* pData, DWORD dwDataSize){
-    DMAWriteDimensiones(LocalAdress, pData, dwDataSize);
+void API::escribirDimensiones(void* pData, unsigned int dwDataSize){
+    DMAWriteDimensiones(pData, dwDataSize);
     std::cout << ""  << std::endl;
 }
 
-void API::obtenerNiosStatus(PCIE_ADDRESS PcieAddress){
-    ReadNiosStatus(PcieAddress);
+unsigned char* API::obtenerNiosStatus(unsigned char* pdwData){
+    return ReadNiosStatus(pdwData);
     std::cout << ""  << std::endl;
 }
 
-void API::escribirEstadoDatoListo(PCIE_ADDRESS PcieAddress, DWORD dwData){
-    WriteDataReadyStatus(PcieAddress, dwData);
+void API::escribirEstadoDatoListo(unsigned int dwData){
+    WriteDataReadyStatus(dwData);
     std::cout << ""  << std::endl;
 }
 
