@@ -11,17 +11,28 @@ void API::escribirMatriz(void* pData, unsigned int dwDataSize){
    std::cout << "" << std::endl;
 }
 
-void* API::leerMatriz(unsigned int dwBufSize, void* pBuffer){
+void API::leerMatriz(unsigned int dwBufSize, void* pBuffer){
     DMAReadMatriz(dwBufSize, pBuffer);
     std::cout << ""  << std::endl;
 }
 
+/*
 void API::escribirDimensiones(void* pData, unsigned int dwDataSize){
     DMAWriteDimensiones(pData, dwDataSize);
     std::cout << ""  << std::endl;
+}*/
+
+void APi::escribirNDimension(unsigned int nDimension){
+    WriteNDimention(nDimension);
+    std::cout << ""  << std::endl;
 }
 
-unsigned char* API::obtenerNiosStatus(unsigned char* pdwData){
+void APi::escribirMDimension(unsigned int mDimension){
+    WriteMDimention(mDimension);
+    std::cout << ""  << std::endl;
+}
+
+void API::obtenerNiosStatus(unsigned int* pdwData){
     ReadNiosStatus(pdwData);
     std::cout << ""  << std::endl;
 }
