@@ -41,7 +41,7 @@ double Filtro::mProcesar_Imagen(int distribution){
         if(id==1){
             //enviar datos
             aAPI.escribirMatriz(&(dataTransfer.at(0)), (aN*distribution/100)+aM);
-            aAPI.escribirDimensiones(dimensions, 2);
+            aAPI.escribirDimensiones(dimensions, 8);
             aAPI.escribirEstadoDatoListo(1);
             //polling
             uchar status = 0;
@@ -72,7 +72,7 @@ double Filtro::mProcesar_Imagen(int distribution){
             aAPI.escribirEstadoDatoListo(1);
             //polling
             uchar status = 0;
-            while(status==0){
+            while(status!=1){
                 aAPI.obtenerNiosStatus(&status);
             }
             //recibir dato
