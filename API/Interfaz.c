@@ -26,7 +26,7 @@ void DMAWriteMatriz(void* pData, DWORD dwDataSize){
     }
 }
 
-void DMAReadMatriz(DWORD dwBufSize, void *pBuffer){
+void DMAReadMatriz(DWORD dwBufSize, void* pBuffer){
     printf ("---------- Iniciando la lectura de la matriz por DMA ----------\n");
 
     PCIE_HANDLE hPCIE;
@@ -51,6 +51,7 @@ void DMAReadMatriz(DWORD dwBufSize, void *pBuffer){
     }
 }
 
+/*
 void DMAWriteDimensiones(void* pData, DWORD dwDataSize){
     printf ("---------- Iniciando la escritura de las dimensiones ----------\n");
 
@@ -75,6 +76,57 @@ void DMAWriteDimensiones(void* pData, DWORD dwDataSize){
         PCIE_Close(hPCIE);
     }
 }
+*/
+
+void WriteNDimention(DWORD nDimention){
+    printf ("---------- Iniciando la escritura de la dimensión n ----------\n");
+    void* lib_handle;
+    PCIE_BAR PcieBar = PCIE_BAR0;
+    PCIE_HANDLE hPCIE;
+    PCIE_ADDRESS PcieAddress = 0x;
+
+    printf ("---------- Cargando el PCIe ----------\n");
+    lib_handle = PCIE_Load();
+    if (!lib_handle){
+        printf("Carga fallida del PCIe \n");
+    }
+    printf ("---------- Abriendo el PCIe ----------\n");
+    hPCIE = PCIE_Open(0,0,0);
+    if(!hPCIE){
+        printf("Apertura fallida del PCIe \n");
+    }else{
+        if (!PCIE_Write32(hPCIE, PcieBar, PcieAddress, nDimention)){
+            printf("Fallo en la escritura  de la dimensión  n\n");
+        }
+        printf ("---------- Cerrando el PCIe ----------\n");
+        PCIE_Close(hPCIE);
+    }
+}
+
+void WriteMDimention(DWORD mDimention){
+    printf ("---------- Iniciando la escritura de la dimensión m ----------\n");
+    void* lib_handle;
+    PCIE_BAR PcieBar = PCIE_BAR0;
+    PCIE_HANDLE hPCIE;
+    PCIE_ADDRESS PcieAddress = 0x;
+
+    printf ("---------- Cargando el PCIe ----------\n");
+    lib_handle = PCIE_Load();
+    if (!lib_handle){
+        printf("Carga fallida del PCIe \n");
+    }
+    printf ("---------- Abriendo el PCIe ----------\n");
+    hPCIE = PCIE_Open(0,0,0);
+    if(!hPCIE){
+        printf("Apertura fallida del PCIe \n");
+    }else{
+        if (!PCIE_Write32(hPCIE, PcieBar, PcieAddress, mDimention)){
+            printf("Fallo en la escritura  de la dimensión  m\n");
+        }
+        printf ("---------- Cerrando el PCIe ----------\n");
+        PCIE_Close(hPCIE);
+    }
+}
 
 void ReadNiosStatus(unsigned char* pdwData){
     printf ("---------- Iniciando la lectura del estado del NIOS ----------\n");
@@ -94,7 +146,7 @@ void ReadNiosStatus(unsigned char* pdwData){
     if(!hPCIE){
         printf("Apertura fallida del PCIe \n");
     }else{
-        if (!PCIE_Read8(hPCIE, PcieBar, PcieAddress, pdwData)){
+        if (!PCIE_Read32(hPCIE, PcieBar, PcieAddress, pdwData)){
             printf("Fallo en la lectura del estado del NIOS\n");
         }
         printf ("---------- Cerrando el PCIe ----------\n");
@@ -121,7 +173,7 @@ void WriteDataReadyStatus(DWORD dwData){
     if(!hPCIE){
         printf("Apertura fallida del PCIe \n");
     }else{
-        if (!PCIE_Write8(hPCIE, PcieBar, PcieAddress, dwData)){
+        if (!PCIE_Write32(hPCIE, PcieBar, PcieAddress, dwData)){
             printf("Fallo en la escritura  del dato listo\n");
         }
         printf ("---------- Cerrando el PCIe ----------\n");
