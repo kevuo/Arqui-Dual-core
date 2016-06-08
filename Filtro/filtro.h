@@ -8,7 +8,7 @@
 #ifndef FILTRO_H
 #define	FILTRO_H
 
-//#include <api.h>
+#include <api.h>
 #include <omp.h>
 #include <opencv/cv.h>
 #include <opencv/highgui.h>

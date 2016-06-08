@@ -37,7 +37,6 @@ void Filtro::mProcesar_Imagen(int distribution){
         if(id==0) mSalt_Filter(distribution);
         if(id==1){
             //enviar datos
-            /*
             escribirMatriz(dataTransfer, (aN*distribution/100)+aM);
             escribirDimensiones(dimensions, 2);
             escribirEstadoDatoListo(1);
@@ -47,7 +46,7 @@ void Filtro::mProcesar_Imagen(int distribution){
                 obtenerNiosStatus(status);
             }
             //recibir dato
-            leerMatriz((aN*distribution/100)+aM, dataTransfer);*/
+            leerMatriz((aN*distribution/100)+aM, dataTransfer);
         }
     }
 
@@ -65,7 +64,6 @@ void Filtro::mProcesar_Imagen(int distribution){
         }
         if(id==1){
             //enviar datos
-            /*
             escribirMatriz(dataTransfer, (aN*distribution/100)+aM);
             escribirDimensiones(dimensions, 2);
             escribirEstadoDatoListo(1);
@@ -75,7 +73,7 @@ void Filtro::mProcesar_Imagen(int distribution){
                 obtenerNiosStatus(status);
             }
             //recibir dato
-            leerMatriz((aN*distribution/100)+aM, dataTransfer);*/
+            leerMatriz((aN*distribution/100)+aM, dataTransfer);
         }
     }
 
