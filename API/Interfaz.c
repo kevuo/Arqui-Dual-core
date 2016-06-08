@@ -108,6 +108,7 @@ void WriteDataReadyStatus(DWORD dwData){
     PCIE_BAR PcieBar = PCIE_BAR0;
     PCIE_HANDLE hPCIE;
     PCIE_ADDRESS PcieAddress = 0x2000;
+    
     //DWORD dwData = 1;
 
     printf ("---------- Cargando el PCIe ----------\n");
