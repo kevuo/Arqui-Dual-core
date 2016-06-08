@@ -21,28 +21,31 @@ unsigned char * mMax(unsigned char *a,  unsigned char *b,  unsigned char *c,  un
 //Main routine
 int main()
 {
-	const unsigned int DATA_READY_ADDRESS = 0x2000
+	///se deben revisar las direcciones.. ahora escribimos palabras
+	const unsigned int DATA_READY_ADDRESS = 0x2000;
 	const unsigned int NIOS_READY_ADDRESS = 0x2001;
 	const unsigned int MATRIX_DIMENSIONS_ADDRESS = 0x2004; // [n,m]
 	const unsigned int BASE_MATRIX_ADDRESS = 0x200C;
 	const unsigned int RESULT_MATRIX_ADDRESS =0x4000000;
+	unsigned char *pResultMatrix;                  //Create buffer to store result matrix
 
 	int *ptrDataReadyValue, *ptrNiosReady, *ptrN, *ptrM;
 	char *ptrBaseMatrix, *ptrResultMatrix;
+	pResultMatrix=RESULT_MATRIX_ADDRESS;           //Assign buffer address
 	ptrDataReadyValue = DATA_READY_ADDRESS;
 	ptrNiosReady = NIOS_READY_ADDRESS;
 	ptrN = MATRIX_DIMENSIONS_ADDRESS;
 	ptrM = MATRIX_DIMENSIONS_ADDRESS+0x4;
-	ptrMatrix=BASE_MATRIX_ADDRESS;
+	ptrBaseMatrix=BASE_MATRIX_ADDRESS;
 	ptrResultMatrix=RESULT_MATRIX_ADDRESS;
 
-//Polling to flag written by Atom Processor. 
+//Polling to flag written by Atom Processor.
 while(1){
 	//If Flag is 1, Nios is ready to begin filtering process.
 	if(*ptrDataReadyValue == 1){
 		//exec filter algorithm
-		int *a = ProcessImage(*ptrMatrix, *ptrN, *ptrM);
-		if(*a == 1){
+		int a = ProcessImage(ptrBaseMatrix, ptrResultMatrix, ptrN, ptrM);
+		if(a == 1){
 			*ptrDataReadyValue=0;
 			*ptrNiosReady = 1;
 			printf("Procesamiento de matriz satisfactorio.");
@@ -54,12 +57,6 @@ while(1){
 }
 return 0;
 }
-
-void debugRoutine(){
-	unsigned char *pMatrix, p;                  //Create buffer to store result matrix
-	pResultMatrix=RESULT_MATRIX_ADDRESS;           //Assign buffer address
-}
-
 
 //Debug purpose
 void printMatrix(unsigned char *ptrMatrix, int *pN, int *pM){
@@ -77,19 +74,17 @@ void printMatrix(unsigned char *ptrMatrix, int *pN, int *pM){
 }
 
 //Max Filter
-int ProcessImage(unsigned char *pMatrix, int *pN, int *pM) {
-	unsigned char *pResultMatrix;                  //Create buffer to store result matrix
-	pResultMatrix=RESULT_MATRIX_ADDRESS;           //Assign buffer address
+int ProcessImage(unsigned char *pMatrix, unsigned char *pResultMatrix, int *pN, int *pM) {
 	int i;
     for (i=0; i < *pN; i=i+1) {
 
     	//Copy 2 first elements from a row to the resultMatrix
-    	*pResultMatrix=*ptrMatrix;
-    	ptrMatrix++;
-    	ptrResultMatrix++;
-    	*pResultMatrix=*ptrMatrix;
-    	ptrMatrix++;
-    	ptrResultMatrix++;
+    	*pResultMatrix=*pMatrix;
+    	pMatrix++;
+    	pResultMatrix++;
+    	*pResultMatrix=*pMatrix;
+    	pMatrix++;
+    	pResultMatrix++;
 
     	int j;
         for (j = 2; j < *pM - 2; j=j+1) {
@@ -98,18 +93,16 @@ int ProcessImage(unsigned char *pMatrix, int *pN, int *pM) {
              pResultMatrix++;
         }
         //Copy 2 first elements from a row to the resultMatrix
-    	*pResultMatrix=*ptrMatrix;
-    	ptrMatrix++;
-    	ptrResultMatrix++;
-    	*pResultMatrix=*ptrMatrix;
-    	ptrMatrix++;
-    	ptrResultMatrix++;
+    	*pResultMatrix=*pMatrix;
+    	pMatrix++;
+    	pResultMatrix++;
+    	*pResultMatrix=*pMatrix;
+    	pMatrix++;
+    	pResultMatrix++;
     }
-    printMatrix(BASE_MATRIX_ADDRESS,*pN,*pM);
-    printMatrix(RESULT_MATRIX_ADDRESS, *pN, *pM);
+    //printMatrix(BASE_MATRIX_ADDRESS,*pN,*pM);
+    //printMatrix(RESULT_MATRIX_ADDRESS, *pN, *pM);
     return 1;
 }
-
-
 
 
