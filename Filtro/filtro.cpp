@@ -1,6 +1,8 @@
 #include "filtro.h"
 
-Filtro::Filtro() {}
+Filtro::Filtro() {
+    aAPI = API();
+}
 
 Filtro::~Filtro(){}
 
@@ -12,13 +14,14 @@ Filtro::Filtro(cv::Mat pImagen, int pN, int pM) {
     cvtColor(pImagen,Matrix1,CV_RGB2GRAY);
     aMatrix1 = Matrix1;
     aMatrix2 = Matrix2;
+    aAPI = API();
 }
 
 cv::Mat Filtro::mGet_Matrix() {
     return aMatrix1;
 }
 
-void Filtro::mProcesar_Imagen(int distribution){
+double Filtro::mProcesar_Imagen(int distribution){
     //memoria de datos para enviar
     vector<uchar> dataTransfer;
 
@@ -37,16 +40,16 @@ void Filtro::mProcesar_Imagen(int distribution){
         if(id==0) mSalt_Filter(distribution);
         if(id==1){
             //enviar datos
-            escribirMatriz(dataTransfer, (aN*distribution/100)+aM);
-            escribirDimensiones(dimensions, 2);
-            escribirEstadoDatoListo(1);
+            aAPI.escribirMatriz(&(dataTransfer.at(0)), (aN*distribution/100)+aM);
+            aAPI.escribirDimensiones(dimensions, 2);
+            aAPI.escribirEstadoDatoListo(1);
             //polling
-            int status = 0;
-            while(*status==0){
-                obtenerNiosStatus(status);
+            uchar status = 0;
+            while(status==0){
+                aAPI.obtenerNiosStatus(&status);
             }
             //recibir dato
-            leerMatriz((aN*distribution/100)+aM, dataTransfer);
+            aAPI.leerMatriz((aN*distribution/100)+aM, &(dataTransfer.at(0)));
         }
     }
 
@@ -64,16 +67,16 @@ void Filtro::mProcesar_Imagen(int distribution){
         }
         if(id==1){
             //enviar datos
-            escribirMatriz(dataTransfer, (aN*distribution/100)+aM);
-            escribirDimensiones(dimensions, 2);
-            escribirEstadoDatoListo(1);
+            aAPI.escribirMatriz(&(dataTransfer.at(0)), (aN*distribution/100)+aM);
+            aAPI.escribirDimensiones(dimensions, 2);
+            aAPI.escribirEstadoDatoListo(1);
             //polling
-            int status = 0;
-            while(*status==0){
-                obtenerNiosStatus(status);
+            uchar status = 0;
+            while(status==0){
+                aAPI.obtenerNiosStatus(&status);
             }
             //recibir dato
-            leerMatriz((aN*distribution/100)+aM, dataTransfer);
+            aAPI.leerMatriz((aN*distribution/100)+aM, &(dataTransfer.at(0)));
         }
     }
 
@@ -87,6 +90,7 @@ void Filtro::mProcesar_Imagen(int distribution){
     cout << "Duracion: " << elapsedTime << " seconds" << std::endl;
 
     delete [] dimensions;
+    return elapsedTime;
 }
 
 int Filtro::mMax_5n(int a, int b, int c, int d, int e) {
@@ -147,18 +151,4 @@ double Filtro::timerStop(){
     struct timeval tod;
     gettimeofday(&tod, 0);
     return ((double)tod.tv_sec + ((double)tod.tv_usec * 1.0e-6)) - startTime;
-}
-
-// Prints matrix to standard output
-void Filtro::printMatrix(int **matrix, int N, int M){
-    int errores = 0;
-    for(int i=0; i<N; i++){
-        for(int j=0; j<M; j++){
-            bool igual = ((int)matrix[i][j]==(int)aMatrix2 .at<uchar>(j,i));
-            if(!igual){
-                errores++;
-            }
-        }
-    }
-    cout <<"errores: "<<errores<<endl;
 }

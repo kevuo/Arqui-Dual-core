@@ -15,21 +15,30 @@ TEMPLATE = app
 SOURCES += main.cpp\
     admimagen.cpp \
     filtro.cpp \
-    saltfilter.cpp
+    mainwindow.cpp \
+    api.cpp \
+    PCIE.c \
+    Interfaz.c
 
 HEADERS  += \
     admimagen.h \
     filtro.h \
-    saltfilter.h
+    mainwindow.h \
+    api.h \
+    PCIE.h \
+    TERASIC_PCIE.h
 
-FORMS    += saltfilter.ui
+FORMS    += \
+    mainwindow.ui
 
 OTHER_FILES += \
     Filtro.pro.user \
-    Makefile
+    Makefile \
+    terasic_pcie_qsys.so
 
 
-LIBS +=`pkg-config opencv --cflags --libs`
+LIBS +=`pkg-config opencv --cflags --libs`\
+-ldl
 
 QMAKE_CXXFLAGS += -fopenmp
 QMAKE_LFLAGS += -fopenmp
