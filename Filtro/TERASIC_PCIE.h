@@ -52,7 +52,7 @@
 	#define DWORD	unsigned int
 	#define WORD	unsigned short
 	#define USHORT	unsigned short
-	#define UCHAR	unsigned char
+    #define UCHARS	unsigned char
 	#define ULONG	unsigned int
     #define BYTE    unsigned char
 	typedef int	PCIE_HANDLE;
@@ -104,14 +104,14 @@ typedef struct {
     USHORT  DeviceID;                   // (ro)
     USHORT  Command;                    // Device control
     USHORT  Status;
-    UCHAR   RevisionID;                 // (ro)
-    UCHAR   ProgIf;                     // (ro)
-    UCHAR   SubClass;                   // (ro)
-    UCHAR   BaseClass;                  // (ro)
-    UCHAR   CacheLineSize;              // (ro+)
-    UCHAR   LatencyTimer;               // (ro+)
-    UCHAR   HeaderType;                 // (ro)
-    UCHAR   BIST;                       // Built in self test
+    UCHARS   RevisionID;                 // (ro)
+    UCHARS   ProgIf;                     // (ro)
+    UCHARS   SubClass;                   // (ro)
+    UCHARS   BaseClass;                  // (ro)
+    UCHARS   CacheLineSize;              // (ro+)
+    UCHARS   LatencyTimer;               // (ro+)
+    UCHARS   HeaderType;                 // (ro)
+    UCHARS   BIST;                       // Built in self test
 
     union {
         struct _MYPCI_HEADER_TYPE_0 {
@@ -120,18 +120,18 @@ typedef struct {
             USHORT  SubVendorID;
             USHORT  SubSystemID;
             ULONG   ROMBaseAddress;
-            UCHAR   CapabilitiesPtr;
-            UCHAR   Reserved1[3];
+            UCHARS   CapabilitiesPtr;
+            UCHARS   Reserved1[3];
             ULONG   Reserved2;
-            UCHAR   InterruptLine;      //
-            UCHAR   InterruptPin;       // (ro)
-            UCHAR   MinimumGrant;       // (ro)
-            UCHAR   MaximumLatency;     // (ro)
+            UCHARS   InterruptLine;      //
+            UCHARS   InterruptPin;       // (ro)
+            UCHARS   MinimumGrant;       // (ro)
+            UCHARS   MaximumLatency;     // (ro)
         } type0;
 
 
     } u;
-    UCHAR   DeviceSpecific[192];
+    UCHARS   DeviceSpecific[192];
 } PCIE_CONFIG;
 
 #pragma pack(pop)
