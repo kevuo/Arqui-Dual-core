@@ -20,19 +20,34 @@ cv::Mat Filtro::mGet_Matrix() {
 
 void Filtro::mProcesar_Imagen(int distribution){
     //memoria de datos para enviar
-    unsigned char **dataTransfer;
-    dataTransfer = new unsigned char*[aN*distribution/100];
-    for (int i=0; i<aN*distribution/100; i++){
-        dataTransfer[i] = new unsigned char[aM];
-    }
+    vector<uchar> dataTransfer;
 
+    uint* dimensions = new uint[2];
+    dimensions[0]=aN*distribution/100;
+    dimensions[1]=aM;
+
+    // starting timer
+    timerStart();
+
+    //construir
+    mConstruir(&dataTransfer);
     #pragma omp parallel num_threads(2)
     {
         int id = omp_get_thread_num();
         if(id==0) mSalt_Filter(distribution);
         if(id==1){
             //enviar datos
+            /*
+            escribirMatriz(dataTransfer, (aN*distribution/100)+aM);
+            escribirDimensiones(dimensions, 2);
+            escribirEstadoDatoListo(1);
             //polling
+            int status = 0;
+            while(*status==0){
+                obtenerNiosStatus(status);
+            }
+            //recibir dato
+            leerMatriz((aN*distribution/100)+aM, dataTransfer);*/
         }
     }
 
@@ -40,6 +55,8 @@ void Filtro::mProcesar_Imagen(int distribution){
     mReconstruir(dataTransfer,distribution);
     mTraspuesta();
 
+    //construir
+    mConstruir(&dataTransfer);
     #pragma omp parallel num_threads(2)
     {
         int id = omp_get_thread_num();
@@ -48,7 +65,17 @@ void Filtro::mProcesar_Imagen(int distribution){
         }
         if(id==1){
             //enviar datos
+            /*
+            escribirMatriz(dataTransfer, (aN*distribution/100)+aM);
+            escribirDimensiones(dimensions, 2);
+            escribirEstadoDatoListo(1);
             //polling
+            int status = 0;
+            while(*status==0){
+                obtenerNiosStatus(status);
+            }
+            //recibir dato
+            leerMatriz((aN*distribution/100)+aM, dataTransfer);*/
         }
     }
 
@@ -56,12 +83,12 @@ void Filtro::mProcesar_Imagen(int distribution){
     mReconstruir(dataTransfer,distribution);
     mTraspuesta();
 
-    // releasing memory
-    for (int i=0; i<aN*distribution/100; i++) {
-        delete [] dataTransfer[i];
-    }
-    delete [] dataTransfer;
 
+    // stopping timer
+    double elapsedTime = timerStop();
+    cout << "Duracion: " << elapsedTime << " seconds" << std::endl;
+
+    delete [] dimensions;
 }
 
 int Filtro::mMax_5n(int a, int b, int c, int d, int e) {
@@ -71,10 +98,20 @@ int Filtro::mMax_5n(int a, int b, int c, int d, int e) {
     return (max < e) ? e : max;
 }
 
-void Filtro::mReconstruir(unsigned char **dataTransfer,int distribution){
+void Filtro::mConstruir(vector<uchar>* dataTransfer){
+    if (aMatrix1.isContinuous()) {
+      dataTransfer->assign(aMatrix1.datastart, aMatrix1.dataend);
+    } else {
+      for (int i = 0; i < aMatrix1.rows; i++) {
+        dataTransfer->insert(dataTransfer->end(), aMatrix1.ptr<uchar>(i), aMatrix1.ptr<uchar>(i)+aMatrix1.cols);
+      }
+    }
+}
+
+void Filtro::mReconstruir(vector<uchar> dataTransfer,int distribution){
     for (int i=0; i<aN*distribution/100; i++) {
         for (int j = 2; j < aM - 2; j++) {
-            aMatrix2 .at<uchar>(i,j) = dataTransfer[i][j];
+            aMatrix2.at<uchar>(i,j) = dataTransfer.at(j+i*aN);
         }
     }
 }
@@ -98,4 +135,32 @@ void Filtro::mTraspuesta() {
             aMatrix1 .at<uchar>(i,j) = aMatrix2 .at<uchar>(j,i);
         }
     }
+}
+
+// Starts timer and resets the elapsed time
+void Filtro::timerStart(){
+    struct timeval tod;
+    gettimeofday(&tod, 0);
+    startTime = (double)tod.tv_sec + ((double)tod.tv_usec * 1.0e-6);
+}
+
+// Stops the timer and returns the elapsed time
+double Filtro::timerStop(){
+    struct timeval tod;
+    gettimeofday(&tod, 0);
+    return ((double)tod.tv_sec + ((double)tod.tv_usec * 1.0e-6)) - startTime;
+}
+
+// Prints matrix to standard output
+void Filtro::printMatrix(int **matrix, int N, int M){
+    int errores = 0;
+    for(int i=0; i<N; i++){
+        for(int j=0; j<M; j++){
+            bool igual = ((int)matrix[i][j]==(int)aMatrix2 .at<uchar>(j,i));
+            if(!igual){
+                errores++;
+            }
+        }
+    }
+    cout <<"errores: "<<errores<<endl;
 }
