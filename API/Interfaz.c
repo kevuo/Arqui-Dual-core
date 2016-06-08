@@ -26,7 +26,7 @@ void DMAWriteMatriz(void* pData, DWORD dwDataSize){
     }
 }
 
-void* DMAReadMatriz(DWORD dwBufSize, void *pBuffer){
+void DMAReadMatriz(DWORD dwBufSize, void *pBuffer){
     printf ("---------- Iniciando la lectura de la matriz por DMA ----------\n");
 
     PCIE_HANDLE hPCIE;
@@ -76,7 +76,7 @@ void DMAWriteDimensiones(void* pData, DWORD dwDataSize){
     }
 }
 
-unsigned char* ReadNiosStatus(unsigned char* pdwData){
+void ReadNiosStatus(unsigned char* pdwData){
     printf ("---------- Iniciando la lectura del estado del NIOS ----------\n");
     void *lib_handle;
     PCIE_HANDLE hPCIE;
