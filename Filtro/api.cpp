@@ -12,7 +12,7 @@ void API::escribirMatriz(void* pData, unsigned int dwDataSize){
 }
 
 void* API::leerMatriz(unsigned int dwBufSize, void* pBuffer){
-    return DMAReadMatriz(dwBufSize, pBuffer);
+    DMAReadMatriz(dwBufSize, pBuffer);
     std::cout << ""  << std::endl;
 }
 
@@ -22,7 +22,7 @@ void API::escribirDimensiones(void* pData, unsigned int dwDataSize){
 }
 
 unsigned char* API::obtenerNiosStatus(unsigned char* pdwData){
-    return ReadNiosStatus(pdwData);
+    ReadNiosStatus(pdwData);
     std::cout << ""  << std::endl;
 }
 

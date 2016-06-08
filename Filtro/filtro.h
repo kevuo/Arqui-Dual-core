@@ -27,7 +27,7 @@ public:
     ~Filtro();
     Filtro(cv::Mat pImagen, int pN, int pM);
     cv::Mat mGet_Matrix();
-    void mProcesar_Imagen(int distribution);
+    double mProcesar_Imagen(int distribution);
 
 private:
     int mMax_5n(int a,int b,int c,int d,int e);
@@ -37,12 +37,12 @@ private:
     void mTraspuesta();
     void timerStart();
     double timerStop();
-    void printMatrix(int **matrix, int N, int M);
     cv::Mat aMatrix1;
     cv::Mat aMatrix2;
     int aN;//filas
     int aM;//columnas
     double startTime;
+    API aAPI;
 };
 
 #endif	/* FILTRO_H */
